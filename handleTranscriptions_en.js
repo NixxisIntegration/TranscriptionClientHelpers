@@ -42,41 +42,41 @@ var lang_fr_FR = {
   darkMode: "Mode sombre",
   lightMode: "Mode lumière",
   displayMode: "Mode d'affichage",
-	language: "Langue",
+  language: "Langue",
   settings: "Paramètres",
   callSummary: "Résumé de l'appel",
   transcription: "Transcription",
-	sentiments: "Sentiments",
+  sentiments: "Sentiments",
   sentiment: "Sentiment",
-	emotions: "Émotions",
+  emotions: "Émotions",
   emotion: "Émotion",
-	positive: "Positif",
-	neutral: "Neutre",
-	negative: "Négatif",
+  positive: "Positif",
+  neutral: "Neutre",
+  negative: "Négatif",
   adoration: "adoration",
-	amusement: "amusement",
-	anger: "colère",
-	awe: "émerveillement",
-	confusion: "confusion",
-	contempt: "mépris",
-	contentment: "contentement",
-	desire: "désir",
-	disappointment: "déception",
-	disgust: "dégoût",
-	distress: "détresse",
-	ecstatic: "extatique",
-	elation: "exaltation",
-	embarrassment: "embarras",
-	fear: "peur",
-	interest: "intérêt",
-	pain: "douleur",
-	realization: "prise de conscience",
-	relief: "soulagement",
-	sadness: "tristesse",
-	negativesurprise: "surprise négative",
-	positivesurprise: "surprise positive",
-	sympathy: "sympathie",
-	triumph: "triomphe",
+  amusement: "amusement",
+  anger: "colère",
+  awe: "émerveillement",
+  confusion: "confusion",
+  contempt: "mépris",
+  contentment: "contentement",
+  desire: "désir",
+  disappointment: "déception",
+  disgust: "dégoût",
+  distress: "détresse",
+  ecstatic: "extatique",
+  elation: "exaltation",
+  embarrassment: "embarras",
+  fear: "peur",
+  interest: "intérêt",
+  pain: "douleur",
+  realization: "prise de conscience",
+  relief: "soulagement",
+  sadness: "tristesse",
+  negativesurprise: "surprise négative",
+  positivesurprise: "surprise positive",
+  sympathy: "sympathie",
+  triumph: "triomphe",
   speaker: "Interlocuteur"
 };
 
@@ -85,41 +85,41 @@ var lang_en_US = {
   darkMode: "Dark Mode",
   lightMode: "Light Mode",
   displayMode: "Display Mode",
-	language: "Language",
+  language: "Language",
   settings: "Settings",
   callSummary: "Call Summary",
   transcription: "Transcription",
-	sentiments: "Sentiments",
+  sentiments: "Sentiments",
   sentiment: "Sentiment",
-	emotions: "Emotions",
+  emotions: "Emotions",
   emotion: "Emotion",
-	positive: "Positive",
-	neutral: "Neutral",
-	negative: "Negative",
+  positive: "Positive",
+  neutral: "Neutral",
+  negative: "Negative",
   adoration: "adoration",
-	amusement: "amusement",
-	anger: "anger",
-	awe: "awe",
-	confusion: "confusion",
-	contempt: "contempt",
-	contentment: "contentment",
-	desire: "desire",
-	disappointment: "disappointment",
-	disgust: "disgust",
-	distress: "distress",
-	ecstatic: "ecstatic",
-	elation: "elation",
-	embarrassment: "embarrassment",
-	fear: "fear",
-	interest: "interest",
-	pain: "pain",
-	realization: "realization",
-	relief: "relief",
-	sadness: "sadness",
-	negativesurprise: "negative surprise",
-	positivesurprise: "positive surprise",
-	sympathy: "sympathy",
-	triumph: "triumph",
+  amusement: "amusement",
+  anger: "anger",
+  awe: "awe",
+  confusion: "confusion",
+  contempt: "contempt",
+  contentment: "contentment",
+  desire: "desire",
+  disappointment: "disappointment",
+  disgust: "disgust",
+  distress: "distress",
+  ecstatic: "ecstatic",
+  elation: "elation",
+  embarrassment: "embarrassment",
+  fear: "fear",
+  interest: "interest",
+  pain: "pain",
+  realization: "realization",
+  relief: "relief",
+  sadness: "sadness",
+  negativesurprise: "negative surprise",
+  positivesurprise: "positive surprise",
+  sympathy: "sympathy",
+  triumph: "triumph",
   speaker: "Speaker"
 };
 
@@ -129,10 +129,10 @@ var listTranscription = obj.paragraphs;
 document.body.innerHTML = "";
 
 function getDataName(text) {
-	var listWord = text.split('_');
-	var dataName = '';
-	listWord.forEach((word, i) => dataName += (i == 0 ? word[0].toLowerCase() : word[0].toUpperCase()) + word.substring(1));
-	return dataName;
+  var listWord = text.split('_');
+  var dataName = '';
+  listWord.forEach((word, i) => dataName += (i == 0 ? word[0].toLowerCase() : word[0].toUpperCase()) + word.substring(1));
+  return dataName;
 }
 
 var divBody = document.createElement("div");
@@ -193,7 +193,7 @@ var sentimentsBody = document.createElement("div");
 sentimentsBody.className = "bg-content sentiment-list";
 sentimentsCardBody.appendChild(sentimentsBody);
 
-function calPercentSentiment (name) {
+function calPercentSentiment(name) {
   let objData = JSON.parse(JSON.stringify(obj));
   var listData = [];
   for (var i = 0; i < objData.paragraphs.length; i++) {
@@ -227,7 +227,7 @@ for (var i = 0; i < listSentiments.length; i++) {
   sentiment.className = `tag`;
   sentiment.dataset.sentiment = `sentiment-${listSentiments[i].name}`;
   sentiment.style.backgroundColor = `#${listSentiments[i].color}`;
-  
+
   sentimentWrap.appendChild(sentiment);
 
   var sentimentText = document.createElement("span");
@@ -247,14 +247,20 @@ function filterEmotion() {
 
   for (var j = 0; j < listData.length; j++) {
     var checkEmotion = listData[j].emotion ? listData[j].emotion.toLowerCase() : 'neutral';
-    var isExisted = tempEmotions.find(e => e.name === checkEmotion)
+    // Normalize for matching: remove spaces and underscores, lowercase
+    var normCheckEmotion = checkEmotion.replace(/[_ ]/g, '');
+    var isExisted = tempEmotions.find(e => e.name.replace(/[_ ]/g, '').toLowerCase() === normCheckEmotion);
     if (isExisted) {
       var getIndex = tempEmotions.indexOf(isExisted);
       tempEmotions[getIndex].count = tempEmotions[getIndex].count + 1;
     } else {
-      var temp = listEmotions.find(e => e.name.split('_').join(' ') === checkEmotion);
-      temp.count = 1;
-      tempEmotions.push(temp);
+      var temp = listEmotions.find(e => e.name.replace(/[_ ]/g, '').toLowerCase() === normCheckEmotion);
+      if (temp) {
+        tempEmotions.push({ ...temp, count: 1 });
+      } else {
+        // fallback for unknown emotions
+        tempEmotions.push({ name: checkEmotion, color: '9E9E9E', count: 1 });
+      }
     }
   }
   return tempEmotions;
@@ -298,7 +304,7 @@ var Emotions = (props) => ({
 });
 
 var chartWrappper = document.createElement("canvas");
-chartWrappper.id="chartCanvas";
+chartWrappper.id = "chartCanvas";
 emotionCardBody.appendChild(chartWrappper);
 
 var emotionWrapper = document.createElement("div");
@@ -317,7 +323,7 @@ for (var i = 0; i < emotions.length; i++) {
 
   var dataName = getDataName(emotions[i].name.split(' ').join(''));
   var emotionName = document.createElement("span");
-  emotionName.dataset.name= `lang-${dataName}`;
+  emotionName.dataset.name = `lang-${dataName}`;
   emotionName.innerText = emotions[i].name.split("_").join(" ");
   emotion.appendChild(emotionName);
 }
@@ -365,11 +371,11 @@ languageContainer.appendChild(languageWrapper);
 
 function changeLanguage() {
   var lang = document.getElementById('languageSelect').value;
-	var langElms = document.querySelectorAll('*[data-name^="lang-"]');
-	for (var i = 0; i < langElms.length; i++) {
-		var langVar = langElms[i].dataset.name.replace('lang-','');
-		langElms[i].innerText = window["lang_"+lang][langVar];
-	}
+  var langElms = document.querySelectorAll('*[data-name^="lang-"]');
+  for (var i = 0; i < langElms.length; i++) {
+    var langVar = langElms[i].dataset.name.replace('lang-', '');
+    langElms[i].innerText = window["lang_" + lang][langVar];
+  }
 }
 
 var languageSelect = document.createElement("select");
@@ -379,10 +385,10 @@ languageSelect.onchange = changeLanguage;
 languageWrapper.appendChild(languageSelect);
 
 for (var i = 0; i < listLanguages.length; i++) {
-	var select = document.createElement("option");
-	select.value = listLanguages[i].code;
-	select.text =  listLanguages[i].name;
-	languageSelect.append(select);
+  var select = document.createElement("option");
+  select.value = listLanguages[i].code;
+  select.text = listLanguages[i].name;
+  languageSelect.append(select);
 }
 
 var displayContainer = document.createElement("div");
@@ -463,13 +469,13 @@ var bgFilter = document.createElement("div");
 bgFilter.className = "filter-wrapper";
 divHeader.appendChild(bgFilter);
 
-var listFilter = [{name: 'all', color: '111815' }, ...listSentiments];
+var listFilter = [{ name: 'all', color: '111815' }, ...listSentiments];
 
 for (var i = 0; i < listFilter.length; i++) {
   var filterContainer = document.createElement("div");
   filterContainer.className = "filter-container";
   bgFilter.appendChild(filterContainer);
-  
+
   var filterInput = document.createElement("input");
   filterInput.id = `filter-${listFilter[i].name}`;
   filterInput.type = "radio";
@@ -487,7 +493,7 @@ for (var i = 0; i < listFilter.length; i++) {
   filterContainer.appendChild(filterMode);
   filterMode.style.color = `#${listFilter[i].color}`
 
-  function renderTranscription () {
+  function renderTranscription() {
     var details = document.createElement("div");
     details.className = "card-body sentiment-chat pt-0";
     transcriptionCard.appendChild(details);
@@ -520,8 +526,8 @@ for (var i = 0; i < listFilter.length; i++) {
         tooltipSentiment.dataset.name = "lang-sentiment"
 
         tagSpeaker.appendChild(tooltipSentimentWrapper);
-      
-      
+
+
         if (listTranscription[i].speaker == "0") {
           avatar.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M12.8147 11.9499L5.28344 13.2051C5.10705 13.2345 4.95979 13.3558 4.89723 13.5234L2.29933 20.4808C2.05066 21.1202 2.72008 21.7302 3.33375 21.4234L14.0458 16.0674C14.0157 15.8827 14 15.6932 14 15.5C14 13.567 15.567 12 17.5 12C18.4928 12 19.389 12.4133 20.026 13.0773L21.3337 12.4234C21.8865 12.147 21.8865 11.3582 21.3337 11.0818L3.33375 2.08177C2.72008 1.77494 2.05066 2.38498 2.29933 3.02443L4.89723 9.98182C4.95979 10.1493 5.10705 10.2707 5.28344 10.3001L12.8147 11.5553C12.9236 11.5735 12.9972 11.6765 12.9791 11.7855C12.965 11.8698 12.899 11.9358 12.8147 11.9499ZM20 15.5C20 16.8807 18.8807 18 17.5 18C16.1193 18 15 16.8807 15 15.5C15 14.1193 16.1193 13 17.5 13C18.8807 13 20 14.1193 20 15.5ZM22 20.875C22 22.4315 20.7143 24 17.5 24C14.2857 24 13 22.4374 13 20.875V20.772C13 19.7929 13.7937 19 14.7727 19H20.2273C21.2063 19 22 19.793 22 20.772V20.875Z" fill="#085673" style="fill:#085673;fill:color(display-p3 0.0296 0.3382 0.4504);fill-opacity:1;"/>
@@ -534,7 +540,7 @@ for (var i = 0; i < listFilter.length; i++) {
         }
         nameSpeaker.innerText = `Speaker`;
         nameSpeaker.dataset.name = 'lang-speaker';
-        
+
         nameWrapper.appendChild(nameSpeaker);
         nameWrapper.appendChild(nameSpan);
 
@@ -554,9 +560,9 @@ for (var i = 0; i < listFilter.length; i++) {
         tooltipSentimentWrapper.appendChild(tooltipSentiment);
         tooltipSentimentWrapper.appendChild(sentimentName);
         tagSpeaker.appendChild(emotionName);
-        
+
         wrapperSpeaker.appendChild(tagSpeaker);
-        
+
         paragraph.appendChild(wrapperSpeaker);
         paragraph.appendChild(avatar);
 
@@ -575,23 +581,22 @@ for (var i = 0; i < listFilter.length; i++) {
           tagSpeaker.style.backgroundColor = `#${temp.color}`;
           tagSpeaker.dataset.sentiment = `sentiment-${temp.name}`
         }
-        
+
 
         var checkEmotion = listTranscription[i].utterances[j].emotion ? listTranscription[i].utterances[j].emotion.toLowerCase() : 'neutral';
-        emotionNameText.innerText = checkEmotion;
-        emotionNameText.dataset.name = `lang-${getDataName(checkEmotion.split(' ').join(''))}`;
-        // utterance.classList.add(
-        //   "emotion-" + checkEmotion
-        // );
+        emotionNameText.innerText = checkEmotion.replace(/_/g, ' ');
+        emotionNameText.dataset.name = `lang-${getDataName(checkEmotion.replace(/[_ ]/g, ''))}`;
+        // Normalize for matching: remove spaces and underscores, lowercase
+        var normCheckEmotion = checkEmotion.replace(/[_ ]/g, '');
         var temp = listEmotions.find(
-          (e) => e.name === checkEmotion
+          (e) => e.name.replace(/[_ ]/g, '').toLowerCase() === normCheckEmotion
         );
         if (temp) {
           emotionName.style.color = `#${temp.color}`;
           var color = hex2rgb(temp.color)
           emotionNameText.style.backgroundColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.1)`;
         }
-        
+
 
         utterance.innerText = listTranscription[i].utterances[j].text ?? 'neutral';
         paragraph.appendChild(utterance);
@@ -604,11 +609,11 @@ function filterChange() {
   var data = this.value;
   let objData = JSON.parse(JSON.stringify(obj));
   if (data !== 'all') {
-    listTranscription = [];   
+    listTranscription = [];
     for (var i = 0; i < objData.paragraphs.length; i++) {
       var listData = [];
       if (objData.paragraphs[i].utterances.length) {
-        listData = objData.paragraphs[i].utterances.filter(item => {var checkSentiment = item.sentiment ?? 'neutral'; return checkSentiment === data});
+        listData = objData.paragraphs[i].utterances.filter(item => { var checkSentiment = item.sentiment ?? 'neutral'; return checkSentiment === data });
         var paragraph = objData.paragraphs[i];
         paragraph.utterances = listData;
         listTranscription.push(paragraph);
@@ -646,7 +651,7 @@ if (obj.summary) {
 
 function switchChange() {
   var sentiment = this.value;
-	var neutralElms = document.querySelectorAll('*[data-sentiment="sentiment-neutral"]');
+  var neutralElms = document.querySelectorAll('*[data-sentiment="sentiment-neutral"]');
   var neutralTextElm = document.querySelectorAll('*[data-sentiment="sentiment-neutral-text"]');
   var allTextElm = document.querySelectorAll('*[data-sentiment="sentiment-all-text"]');
 
@@ -758,11 +763,11 @@ class PieChart {
   drawSlices() {
     let colorIndex = 0;
     let startAngle = -Math.PI / 2;
-    
+
     for (let categ in this.options.data) {
       const val = this.options.data[categ];
       const sliceAngle = (2 * Math.PI * val) / this.totalValue;
-    
+
       drawPieSlice(
         this.ctx,
         this.canvas.width / 2,
@@ -773,11 +778,11 @@ class PieChart {
         this.colors[colorIndex % this.colors.length],
         this.options.darkMode ? "rgba(39, 51, 53, 1)" : "rgba(222, 239, 248, 1)",
       );
-    
+
       startAngle += sliceAngle;
       colorIndex++;
     }
-    
+
     if (this.options.doughnutHoleSize) {
       drawPieSlice(
         this.ctx,
@@ -789,7 +794,7 @@ class PieChart {
         this.options.darkMode ? "rgba(39, 51, 53, 1)" : "rgba(222, 239, 248, 1)",
         this.options.darkMode ? "rgba(39, 51, 53, 1)" : "rgba(222, 239, 248, 1)",
       );
-    
+
       drawArc(
         this.ctx,
         this.canvas.width / 2,
@@ -831,7 +836,7 @@ class PieChart {
       this.ctx.fillText(labelText + "%", labelX, labelY);
       startAngle += sliceAngle;
     }
-  }  
+  }
 
   draw() {
     this.drawSlices();
@@ -840,7 +845,7 @@ class PieChart {
 }
 
 function drawChart(isDarkMode) {
-  const dataChart = Object.assign(...emotions.map((e) => ({[e.name]: e.count})));
+  const dataChart = Object.assign(...emotions.map((e) => ({ [e.name]: e.count })));
   const dataChartColor = emotions.map(e => `#${e.color}`);
 
   const myPiechart = new PieChart({
@@ -874,7 +879,7 @@ function init() {
   var element = document.getElementsByTagName('body')[0];
   var style = window.getComputedStyle(element);
   setTimeout(() => {
-	  if (style.backgroundColor === "rgba(0, 0, 0, 0)" || style.backgroundColor === "rgb(0, 0, 0)") {
+    if (style.backgroundColor === "rgba(0, 0, 0, 0)" || style.backgroundColor === "rgb(0, 0, 0)") {
       document.getElementById("switchId").checked = true;
       switchChange();
     }
